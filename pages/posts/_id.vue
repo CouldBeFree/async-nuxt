@@ -2,32 +2,17 @@
     <div class="container">
         <article>
             <h1>{{ post.title }}</h1>
-            <p>{{ post.content }}</p>
+            <p>{{ post.body }}</p>
         </article>
-        <aside>
-            <h3>Posts you might enjoy</h3>
-            <li v-for="related in relatedPosts">
-                <nuxt-link :to="`/posts/${related.id}`">
-                    {{related.title}}
-                </nuxt-link>
-            </li>
-        </aside>
     </div>
 </template>
 
 <script>
+
     export default {
         data() {
             return {
                 id: this.$route.params.id
-            }
-        },
-        computed: {
-            post () {
-                return this.$store.state.posts.all.find(post => post.id === this.id)
-            },
-            relatedPosts() {
-                return this.$store.state.posts.all.filter(post => post.id !== this.id)
             }
         },
         head(){
@@ -40,6 +25,18 @@
                     { name: 'twitter:card', content: 'summary_large_image'}
                 ]
             }
+        },
+        /*async asyncData({params, $axios}) {
+            let post = await $axios.$get(`posts/${params.id}`);
+            return {post}
+        }*/
+        computed: {
+            post () {
+                return this.$store.state.posts.all.find(post => post.id === Number(this.id))
+            }
+        },
+        async fetch ({store, params}) {
+            await store.dispatch('posts/fetchPost', params.id)
         }
     }
 </script>

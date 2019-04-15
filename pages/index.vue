@@ -3,7 +3,7 @@
     <div>
       <logo />
       <h1 class="title">
-        test-nuxt
+        nuxt-async
       </h1>
       <h2 class="subtitle">
         My kickass Nuxt.js project
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import Logo from '~/components/Logo.vue'
+    import Logo from '~/components/Logo.vue';
 
     export default {
         components: {
@@ -40,9 +40,16 @@
                 ]
             }
         },
+        /*async asyncData({$axios}) {
+            let posts = await $axios.$get('posts');
+            return {posts}
+        }*/
+        async fetch({store}){
+            await store.dispatch('posts/fetchAllPosts')
+        },
         computed: {
-            posts() {
-                return this.$store.state.posts.all
+            posts () {
+                return this.$store.state.posts.all;
             }
         }
     }

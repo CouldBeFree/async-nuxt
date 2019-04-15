@@ -40,7 +40,12 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+      '@nuxtjs/axios'
   ],
+
+  axios: {
+    baseURL: 'https://jsonplaceholder.typicode.com'
+  },
 
   /*
   ** Build configuration
